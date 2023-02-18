@@ -1,7 +1,8 @@
 import pygame as pg
 
 # Константы
-SET = WIDTH, HEIGHT = 800, 500
+SET = WIDTH, HEIGHT = 1536, 864
+CENTER = WIDTH // 2, HEIGHT // 2
 FPS = 80
 SPEED = 6
 JUMP_CONST = 20

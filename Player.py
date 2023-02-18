@@ -6,7 +6,7 @@ class Player:
         self.in_center = True
         self.jump_counter = JUMP_CONST
         self.in_jump = False
-        self.x, self.y = (400, 400)
+        self.x, self.y = (CENTER[0], 550)
 
     def move(self, actions, block_move=False):
         if not block_move:
@@ -19,7 +19,7 @@ class Player:
         if self.in_jump:
             self.jump()
 
-        self.in_center = True if self.x == WIDTH // 2 else False
+        self.in_center = True if self.x == CENTER[0] else False
 
     def jump(self):
         if self.jump_counter > 0:
