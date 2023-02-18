@@ -22,7 +22,6 @@ def set_music():
 
 
 
-but = Button(btn_start, btn_start_active, set_music, 2)
 while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -34,5 +33,4 @@ while True:
                 print("space")
 
     display.fill((100, 200, 100))
-    but.draw(display, (100, 100))
     pg.display.flip()

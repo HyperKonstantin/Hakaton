@@ -6,5 +6,6 @@ pg.mixer.music.load("sounds/MORGENSHTERN_-_POSOSI_69827135.mp3")
 sound = pg.mixer.Sound("sounds/spank.wav")
 
 # загрузка изображений
+bg_street = pg.Surface((2000, 300))
 btn_start = pg.image.load("images/btn_start.png")
 btn_start_active = pg.image.load("images/btn_start_active.png")
