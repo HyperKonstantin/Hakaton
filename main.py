@@ -40,4 +40,5 @@ while True:
     scene.update()
     scene.draw(display)
     pg.display.flip()
+    # print(clock.get_fps())
     clock.tick(FPS)

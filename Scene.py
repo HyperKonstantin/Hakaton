@@ -1,34 +1,72 @@
 from config import *
 from Player import Player
+from corpuses.Corpus1 import Corpus1
 class Scene:
     def __init__(self):
         self.street_img = bg_street
         self.rect = self.street_img.get_rect()
         self.x, self.y = (0, 0)
         self.player = Player()
-        self.actions = {"left": False, "right": False, "jump": False}
+        self.actions = {"left": False, "right": False, "jump": False, "space": False}
+        self.corpus = None
+        # self.door_surfaces = [pg.Surface((600, 200)), pg.Surface((600, 200)), pg.Surface((600, 200))]
+        # self.street_img.blit(self.door_surfaces[0], (1100, 620))
+        # self.street_img.blit(self.door_surfaces[1], (6600, 620))
+        # self.street_img.blit(self.door_surfaces[2], (12200, 620))
+        self.door_rects = [pg.Rect(1100, 620, 600, 200), pg.Rect(6600, 620, 600, 200), pg.Rect(12200, 620, 600, 200)]
+
+
 
     def update(self):
-        self.move(self.actions)
+        if self.corpus == None:
+            self.move(self.actions)
+        else:
+            self.corpus.update(self.actions)
+
+        print(f"{self.door_rects[1].x}\t{self.player.rect.x}")
 
 
     def draw(self, display : pg.Surface):
-        display.blit(self.street_img, (self.x, self.y))
+        if self.corpus == None:
+            display.blit(self.street_img, (self.x, self.y))
+        else:
+            self.corpus.draw()
         self.player.draw(display)
 
+
     def move(self, actions):
-        if self.player.in_center :
+        if self.player.in_x_center :
             if actions["right"] and not self.is_right_border():
                 self.x -= SPEED
+                self.move_rects(-SPEED)
+                self.player.reverse = False
                 self.player.move(actions, True)
             if actions["left"] and not self.is_left_border():
                 self.x += SPEED
+                self.move_rects(SPEED)
                 self.player.move(actions, True)
+                self.player.reverse = True
             if not (actions["right"] and not self.is_right_border()) and not (actions["left"] and not self.is_left_border()):
-                print("player")
                 self.player.move(actions)
         else:
             self.player.move(actions)
+
+        if actions["space"]:
+            active_door = self.player.street_collides(self.door_rects)
+            print(f"{active_door=}")
+            match active_door:
+                case 0:
+                    print("go in corpus 1")
+                    # self.corpus = Corpus1(self.player)
+                case 1:
+                    print("go in corpus 2")
+                case 2:
+                    print("go in corpus 3")
+
+    def move_rects(self, x, y=0):
+        for rect in self.door_rects:
+            rect.x += x
+            rect.y += y
 
     def is_left_border(self):
         return True if self.x >= 0 else False

@@ -3,9 +3,10 @@ import pygame as pg
 # Константы
 SET = WIDTH, HEIGHT = 1536, 864
 CENTER = WIDTH // 2, HEIGHT // 2
-FPS = 80
-SPEED = 6
-JUMP_CONST = 20
+FPS = 100
+SPEED = 240
+JUMP_CONST = 10
+ANIMATION_CONST = 10
 
 # загрузка звуков
 pg.mixer.init(44100, -16, 2, 4096)
@@ -13,10 +14,13 @@ pg.mixer.music.load("sounds/MORGENSHTERN_-_POSOSI_69827135.mp3")
 sound = pg.mixer.Sound("sounds/spank.wav")
 
 # загрузка изображений
-# bg_street = pg.Surface((2000, 300)).fill((30, 200, 30))
 bg_street = pg.image.load("images/img_street.png")
-# player_img = pg.Surface((100, 100)).fill((200, 20, 20))
+corpus1_img = pg.image.load("images/img_corpus_1.png")
 player_img = pg.image.load("images/img_player.png")
+player_stand_right_img = pg.image.load("images/img_player_stand_right.png")
+player_goes_right_img = pg.image.load("images/img_player_goes_right.png")
+player_stand_left_img = pg.image.load("images/img_player_stand_left.png")
+player_goes_left_img = pg.image.load("images/img_player_goes_left.png")
 
 btn_start = pg.image.load("images/btn_start.png")
 btn_start_active = pg.image.load("images/btn_start_active.png")

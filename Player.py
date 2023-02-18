@@ -1,40 +1,65 @@
 from config import *
 class Player:
     def __init__(self):
-        self.img = player_img
+        self.player_stand_img = player_img
+        self.right_animation_imgs = [player_stand_right_img, player_goes_right_img]
+        self.left_animation_imgs = [player_stand_left_img, player_goes_left_img]
+        self.rect = self.player_stand_img.get_rect()
         self.reverse = False
-        self.in_center = True
+        self.moving = False
+        self.in_x_center = True
         self.jump_counter = JUMP_CONST
+        self.animation_counter = 0
         self.in_jump = False
-        self.x, self.y = (CENTER[0], 550)
+        self.x, self.y = (CENTER[0], 670)
+        self.rect.x, self.rect.y = (CENTER[0], 670)
 
     def move(self, actions, block_move=False):
         if not block_move:
-            if actions["right"]:
+            if actions["right"] and self.x < WIDTH - self.rect.width - SPEED:
                 self.x += SPEED
-            if actions["left"]:
+                self.reverse = False
+            if actions["left"] and self.x > SPEED:
                 self.x -= SPEED
+                self.reverse = True
         if actions["jump"]:
             self.in_jump = True
         if self.in_jump:
             self.jump()
 
-        self.in_center = True if self.x == CENTER[0] else False
+        if not actions["right"] and not actions["left"]:
+            self.moving = False
+        else:
+            self.moving = True
+
+        self.in_x_center = True if self.x == CENTER[0] else False
 
     def jump(self):
         if self.jump_counter > 0:
-            self.y -= (self.jump_counter ** 2) / 20
+            self.y -= (self.jump_counter ** 2) / 2
         if self.jump_counter < 0:
-            self.y += (self.jump_counter ** 2) / 20
+            self.y += (self.jump_counter ** 2) / 2
         if self.jump_counter == -JUMP_CONST:
             self.jump_counter = JUMP_CONST
             self.in_jump = False
             return
         self.jump_counter -= 1
 
+    def animation(self):
+        self.animation_counter += 1
+        if self.animation_counter >= ANIMATION_CONST:
+            self.animation_counter = 0
+
+        return self.right_animation_imgs[self.animation_counter // (ANIMATION_CONST // 2)]
 
     def draw(self, display : pg.Surface):
-        img = pg.transform.flip(self.img, True, False) if self.reverse else self.img
+        img = self.animation() if self.moving else self.player_stand_img
+        img = pg.transform.flip(img, True, False) if self.reverse else img
         display.blit(img, (self.x, self.y))
 
+    def street_collides(self, doors):
+        for i, door in enumerate(doors):
+            if self.rect.colliderect(door):
+                return i
 
+        return None
