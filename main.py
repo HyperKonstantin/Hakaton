@@ -28,6 +28,7 @@ while True:
             pg.quit()
             quit()
         elif event.type == pg.KEYDOWN:
+            print(f"{event.key=}")
             if event.key == pg.K_SPACE:
                 sound.play()
                 print("space")
