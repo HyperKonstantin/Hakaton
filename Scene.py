@@ -1,6 +1,8 @@
 from config import *
 from Player import Player
 from corpuses.Corpus1 import Corpus1
+from corpuses.Corpus2 import Corpus2
+from corpuses.Corpus3 import Corpus3
 class Scene:
     def __init__(self):
         self.street_img = bg_street
@@ -20,17 +22,20 @@ class Scene:
     def update(self):
         if self.corpus == None:
             self.move(self.actions)
+        elif self.corpus.quit:
+            self.move(self.actions)
+            self.corpus = None
         else:
             self.corpus.update(self.actions)
 
-        print(f"{self.door_rects[1].x}\t{self.player.rect.x}")
+        # print(f"{self.door_rects[1].y}\t{self.player.rect.y}")
 
 
     def draw(self, display : pg.Surface):
         if self.corpus == None:
             display.blit(self.street_img, (self.x, self.y))
         else:
-            self.corpus.draw()
+            self.corpus.draw(display)
         self.player.draw(display)
 
 
@@ -57,11 +62,14 @@ class Scene:
             match active_door:
                 case 0:
                     print("go in corpus 1")
-                    # self.corpus = Corpus1(self.player)
+                    self.corpus = Corpus1(self.player, corpus1_img)
                 case 1:
                     print("go in corpus 2")
+                    self.corpus = Corpus2(self.player, corpus2_img)
                 case 2:
                     print("go in corpus 3")
+                    self.corpus = Corpus3(self.player, corpus3_img)
+
 
     def move_rects(self, x, y=0):
         for rect in self.door_rects:

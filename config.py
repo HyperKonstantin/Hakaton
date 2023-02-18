@@ -4,7 +4,7 @@ import pygame as pg
 SET = WIDTH, HEIGHT = 1536, 864
 CENTER = WIDTH // 2, HEIGHT // 2
 FPS = 100
-SPEED = 240
+SPEED = 24
 JUMP_CONST = 10
 ANIMATION_CONST = 10
 
@@ -16,6 +16,8 @@ sound = pg.mixer.Sound("sounds/spank.wav")
 # загрузка изображений
 bg_street = pg.image.load("images/img_street.png")
 corpus1_img = pg.image.load("images/img_corpus_1.png")
+corpus2_img = pg.image.load("images/img_corpus_2.png")
+corpus3_img = pg.image.load("images/img_corpus_3.png")
 player_img = pg.image.load("images/img_player.png")
 player_stand_right_img = pg.image.load("images/img_player_stand_right.png")
 player_goes_right_img = pg.image.load("images/img_player_goes_right.png")

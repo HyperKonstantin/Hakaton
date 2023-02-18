@@ -18,9 +18,11 @@ class Player:
         if not block_move:
             if actions["right"] and self.x < WIDTH - self.rect.width - SPEED:
                 self.x += SPEED
+                self.move_rect(self.rect, SPEED)
                 self.reverse = False
             if actions["left"] and self.x > SPEED:
                 self.x -= SPEED
+                self.move_rect(self.rect, -SPEED)
                 self.reverse = True
         if actions["jump"]:
             self.in_jump = True
@@ -33,6 +35,10 @@ class Player:
             self.moving = True
 
         self.in_x_center = True if self.x == CENTER[0] else False
+
+    def move_rect(self, rect, x, y=0):
+            rect.x += x
+            rect.y += y
 
     def jump(self):
         if self.jump_counter > 0:
