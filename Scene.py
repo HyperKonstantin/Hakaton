@@ -9,12 +9,8 @@ class Scene:
         self.rect = self.street_img.get_rect()
         self.x, self.y = (0, 0)
         self.player = Player()
-        self.actions = {"left": False, "right": False, "jump": False, "space": False}
+        self.actions = {"left": False, "right": False, "jump": False, "sit": False, "space": False}
         self.corpus = None
-        # self.door_surfaces = [pg.Surface((600, 200)), pg.Surface((600, 200)), pg.Surface((600, 200))]
-        # self.street_img.blit(self.door_surfaces[0], (1100, 620))
-        # self.street_img.blit(self.door_surfaces[1], (6600, 620))
-        # self.street_img.blit(self.door_surfaces[2], (12200, 620))
         self.door_rects = [pg.Rect(1100, 620, 600, 200), pg.Rect(6600, 620, 600, 200), pg.Rect(12200, 620, 600, 200)]
 
 
@@ -25,6 +21,8 @@ class Scene:
         elif self.corpus.quit:
             self.move(self.actions)
             self.corpus = None
+            self.player.x = CENTER[0]
+            self.player.rect.x = CENTER[0]
         else:
             self.corpus.update(self.actions)
 
@@ -57,8 +55,8 @@ class Scene:
             self.player.move(actions)
 
         if actions["space"]:
+            actions["space"] = False
             active_door = self.player.street_collides(self.door_rects)
-            print(f"{active_door=}")
             match active_door:
                 case 0:
                     print("go in corpus 1")

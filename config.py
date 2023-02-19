@@ -7,6 +7,8 @@ FPS = 100
 SPEED = 24
 JUMP_CONST = 10
 ANIMATION_CONST = 10
+LIFT_CONST = 20
+MAX_FLOOR = 3
 
 # загрузка звуков
 pg.mixer.init(44100, -16, 2, 4096)
@@ -23,9 +25,10 @@ player_stand_right_img = pg.image.load("images/img_player_stand_right.png")
 player_goes_right_img = pg.image.load("images/img_player_goes_right.png")
 player_stand_left_img = pg.image.load("images/img_player_stand_left.png")
 player_goes_left_img = pg.image.load("images/img_player_goes_left.png")
+lift_img = pg.image.load("images/img_lift.png")
 
 btn_start = pg.image.load("images/btn_start.png")
 btn_start_active = pg.image.load("images/btn_start_active.png")
 
 # вспомогателные структуры
-player_buttons = {119: "jump", 97: "left", 100: "right", 32: "space"}
+player_buttons = {119: "jump", pg.K_s : "sit", 97: "left", 100: "right", 32: "space"}
