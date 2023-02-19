@@ -1,4 +1,5 @@
 from config import *
+from TextCloud import TextCloud
 class Player:
     def __init__(self):
         self.player_stand_img = player_img
@@ -13,6 +14,8 @@ class Player:
         self.in_jump = False
         self.x, self.y = (CENTER[0], 670)
         self.rect.x, self.rect.y = (CENTER[0], 670)
+        self.text_cloud = TextCloud()
+
 
     def move(self, actions, block_move=False):
         if not block_move:
@@ -42,12 +45,16 @@ class Player:
 
     def jump(self):
         if self.jump_counter > 0:
-            self.y -= (self.jump_counter ** 2) / 3
+            self.y -= (self.jump_counter ** 2)
+            self.rect.y -= (self.jump_counter ** 2)
         if self.jump_counter < 0:
-            self.y += (self.jump_counter ** 2) / 3
+            self.y += (self.jump_counter ** 2)
+            self.rect.y += (self.jump_counter ** 2)
         if self.jump_counter == -JUMP_CONST:
             self.jump_counter = JUMP_CONST
             self.in_jump = False
+            # self.y = FLOOR_COORD
+            # self.rect.y = FLOOR_COORD
             return
         self.jump_counter -= 1
 
@@ -62,6 +69,12 @@ class Player:
         img = self.animation() if self.moving else self.player_stand_img
         img = pg.transform.flip(img, True, False) if self.reverse else img
         display.blit(img, (self.x, self.y))
+
+        #text
+        self.text_cloud.set_coords(self.rect.topright)
+        self.text_cloud.update(display)
+
+        # self.text_cloud.blit("")
 
     def street_collides(self, doors):
         for i, door in enumerate(doors):

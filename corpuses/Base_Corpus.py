@@ -1,7 +1,7 @@
 from config import *
 
 class Base_Corpus:
-    def __init__(self, player, corpus_img):
+    def __init__(self, player, corpus_img, tables_x):
         self.img = corpus_img
         self.rect = self.img.get_rect()
         self.x, self.y =  0, HEIGHT - self.rect.height
@@ -15,6 +15,8 @@ class Base_Corpus:
         self.lift_moving = None # up - True, down - False, nothing - None
         self.lift_y = 0
         self.floor = 0
+        self.tables_x = tables_x
+
 
 
     def draw(self, display : pg.Surface):
@@ -24,7 +26,6 @@ class Base_Corpus:
         self.move(actions)
         self.collider()
 
-        # print(f"{self.backdoor.x}\t{self.player.rect.x}")
 
     def move(self, actions):
         if self.in_lift and (actions["jump"] or actions["sit"]) and self.lift_moving == None:
@@ -60,12 +61,23 @@ class Base_Corpus:
 
     def move_lift(self, actions):
         if self.lift_counter > 0:
+            delta = self.lift_rect.height / LIFT_CONST
             if self.lift_moving:
-                self.y += self.lift_rect.height / LIFT_CONST
-                self.lift_y += self.lift_rect.height / LIFT_CONST
+                if self.is_up_border():
+                    self.player.y -= delta
+                    self.player.rect.y -= delta
+                    self.lift_rect.y -= delta
+                else:
+                    self.y += delta
+                self.lift_y += delta
             else:
-                self.y -= self.lift_rect.height / LIFT_CONST
-                self.lift_y -= self.lift_rect.height / LIFT_CONST
+                if self.player.rect.y < FLOOR_COORD:
+                    self.player.y += delta
+                    self.player.rect.y += delta
+                    self.lift_rect.y += delta
+                else:
+                    self.y -= delta
+                self.lift_y -= delta
             self.lift_counter -= 1
 
         else:
@@ -81,15 +93,18 @@ class Base_Corpus:
             rect.y += y
 
     def space_action(self):
-        if self.player.rect.colliderect(self.backdoor):
+        if self.player.rect.colliderect(self.backdoor) and self.floor == 0:
             print("go to street")
             self.quit = True
+
+        if self.player.rect.centerx in [i for  i in range(self.tables_x - 50, self.tables_x + 50)]:
+            if self.num == table_corpus and self.floor == table_floor:
+                self.player.text_cloud.blit("Нашёл!")
 
     def collider(self):
         # print(f"{self.lift_rect.y}, {self.player.rect.y}")
         if self.lift_rect.contains(self.player.rect):
             self.in_lift = True
-            print("in_lift")
         else:
             self.in_lift = False
 

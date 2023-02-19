@@ -3,7 +3,8 @@ from corpuses.Base_Corpus import Base_Corpus
 
 class Corpus2(Base_Corpus):
     def __init__(self, player, corpus_img):
-        super().__init__(player, corpus_img)
+        super().__init__(player, corpus_img, 990)
+        self.num = 2
         self.lift_rect.x, self.lift_rect.y = 1250, 600
 
     def draw(self, display : pg.Surface):

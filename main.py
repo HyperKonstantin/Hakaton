@@ -4,8 +4,6 @@ from Scene import Scene
 
 from button import Button
 
-pg.init()
-
 
 display = pg.display.set_mode(SET, pg.FULLSCREEN)
 

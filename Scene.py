@@ -3,6 +3,7 @@ from Player import Player
 from corpuses.Corpus1 import Corpus1
 from corpuses.Corpus2 import Corpus2
 from corpuses.Corpus3 import Corpus3
+
 class Scene:
     def __init__(self):
         self.street_img = bg_street
@@ -12,7 +13,6 @@ class Scene:
         self.actions = {"left": False, "right": False, "jump": False, "sit": False, "space": False}
         self.corpus = None
         self.door_rects = [pg.Rect(1100, 620, 600, 200), pg.Rect(6600, 620, 600, 200), pg.Rect(12200, 620, 600, 200)]
-
 
 
     def update(self):

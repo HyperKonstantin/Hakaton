@@ -4,7 +4,8 @@ from corpuses.Base_Corpus import Base_Corpus
 
 class Corpus1(Base_Corpus):
     def __init__(self, player, corpus_img):
-        super().__init__(player, corpus_img)
+        super().__init__(player, corpus_img, 530)
+        self.num = 1
         self.lift_rect.x, self.lift_rect.y = 0, 600
 
     def draw(self, display : pg.Surface):
