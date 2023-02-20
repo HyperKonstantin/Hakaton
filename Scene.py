@@ -23,6 +23,7 @@ class Scene:
             self.corpus = None
             self.player.x = CENTER[0]
             self.player.rect.x = CENTER[0]
+            self.player.in_x_center = True
         else:
             self.corpus.update(self.actions)
 
@@ -59,13 +60,10 @@ class Scene:
             active_door = self.player.street_collides(self.door_rects)
             match active_door:
                 case 0:
-                    print("go in corpus 1")
                     self.corpus = Corpus1(self.player, corpus1_img)
                 case 1:
-                    print("go in corpus 2")
                     self.corpus = Corpus2(self.player, corpus2_img)
                 case 2:
-                    print("go in corpus 3")
                     self.corpus = Corpus3(self.player, corpus3_img)
 
 
