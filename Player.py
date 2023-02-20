@@ -15,6 +15,8 @@ class Player:
         self.x, self.y = (CENTER[0], 670)
         self.rect.x, self.rect.y = (CENTER[0], 670)
         self.text_cloud = TextCloud()
+        self.active_NPC = False
+        self.info_counter = 0
 
 
     def move(self, actions, block_move=False):

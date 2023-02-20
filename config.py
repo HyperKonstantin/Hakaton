@@ -42,12 +42,14 @@ cloud_font = pg.font.SysFont("sourcecodeproblack", 25)
 
 # вспомогателные структуры
 player_buttons = {119: "jump", pg.K_s : "sit", 97: "left", 100: "right", 32: "space"}
-subjects = ["матану", "физике", "метрологии", "МОТСу", "ОАиПу", "СММиФу"]
+subjects = ["матану", "физике", "метрологии"]
 
-dialog_text = {"матану": ["Фраза по матану 1", "Фраза по матану 2", "Фраза по матану 3"],
-               "Физике": ["Фраза по физике 1", "Фраза по физике 2", "Фраза по физике 3"],
-               }
+exam_phrases = {"матану": ["Фраза по матану 1", "Фраза по матану 2", "Фраза по матану 3"],
+               "физике": ["Фраза по физике 1", "Фраза по физике 2", "Фраза по физике 3"],
+               "метрологии": ["Фраза по метрологии 1", "Фраза по метрологии 2", "Фраза по метрологии 3"]
+                }
 
+dialog_texts = ["Фраза по матану 1", "Фраза по матану 2", "Фраза по матану 3", "Фраза по физике 1", "Фраза по физике 2", "Фраза по физике 3"]
 
 
 corpuses_door_collide_points = [[(1060, 1795, 2473), (1160 - 726, 840  - 726, 520  - 726)] # 1 корпус
@@ -63,8 +65,8 @@ exam_room = randint(1, 3)
 exam_room_point = [corpuses_door_collide_points[exam_corpus - 1][0][exam_room - 1], corpuses_door_collide_points[exam_corpus - 1][1][exam_floor - 1]]
 exam_subject = choice(subjects)
 
-table_corpus = randint(1, 3)
-table_floor = randint(1, 1)
+table_corpus = randint(1, 1)
+table_floor = randint(1, 3)
 table_text = f"Вот оно! Оказывается у\nменя экзамен по {exam_subject}\nв {exam_corpus}-{exam_floor + 1}0{exam_room} кабинете.\nГлавное - не забыть!"
 
 

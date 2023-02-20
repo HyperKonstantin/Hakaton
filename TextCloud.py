@@ -17,10 +17,13 @@ class TextCloud:
     def set_coords(self, coords):
         self.coords = coords[0] - 30, coords[1] - self.rect.height + 30
 
-    def blit(self, text):
+    def blit(self, text, nonestop=False):
         self.text = text
         self.is_blit = True
-        self.time_counter = TEXT_TIME
+        self.time_counter = 100000 if nonestop else TEXT_TIME
+
+    def remove(self):
+        self.time_counter = 0
 
     def draw(self, display : pg.Surface):
 

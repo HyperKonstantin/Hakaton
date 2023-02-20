@@ -23,8 +23,8 @@ class Base_Corpus:
     def draw(self, display : pg.Surface):
         # self.draw_door_collide_points()
         display.blit(self.img, (self.x, self.y))
-        for coords, img in zip(self.npc_points, self.npc_imgs):
-            display.blit(img, (coords[0] - 75, coords[1] - 75))
+        for npc in self.NPCs:
+            npc.draw(display)
 
     def draw_door_collide_points(self):
         pg.draw.rect(self.img, (0, 0, 200), (1060, 520, 20, 20))
@@ -126,10 +126,22 @@ class Base_Corpus:
         elif self.player.rect.collidepoint(self.exam_room_point) and self.num == exam_corpus:
             print("on exam")
 
+        elif self.player.active_NPC:
+            self.player.text_cloud.remove()
+            if self.player.active_NPC.is_right:
+                self.player.info_counter += 1
+            elif self.player.info_counter > 0:
+                self.player.info_counter -= 1
+            self.player.active_NPC = None
+            print(f"info: {self.player.info_counter}")
+
+
         else:
-            for coords in self.npc_points:
-                if self.player.rect.collidepoint(coords):
+            for npc in self.NPCs:
+                if not npc.is_asked and self.player.rect.collidepoint(npc.coords):
                     print("Talk with player")
+                    self.player.active_NPC = npc
+                    self.player.text_cloud.blit(npc.text, True)
                     break
 
     def collider(self):
@@ -139,10 +151,17 @@ class Base_Corpus:
         else:
             self.in_lift = False
 
+        if self.player.active_NPC and not self.player.rect.collidepoint(self.player.active_NPC.coords):
+            self.player.active_NPC.is_asked = True
+            self.player.active_NPC = None
+            self.player.text_cloud.remove()
+
+
+
+
     def move_npc(self, x, y):
-        for coords in self.npc_points:
-            coords[0] += x
-            coords[1] += y
+        for npc in self.NPCs:
+            npc.move(x, y)
 
 
     def is_left_border(self):
