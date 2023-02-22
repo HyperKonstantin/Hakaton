@@ -19,7 +19,7 @@ class End_game:
             if self.alpha_counter >= 255:
                 self.end_screen(display)
                 if not self.run_end_sound:
-                    self.end_music(music_player)
+                    # self.end_music(music_player)
                     self.run_end_sound = True
             else:
                 self.end_game(display)

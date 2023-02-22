@@ -1,11 +1,12 @@
 from config import *
 
 class TextCloud:
-    def __init__(self):
+    def __init__(self, coords=[0, 0]):
         self.img = text_cloud_img
         self.rect = self.img.get_rect()
         self.time_counter = 0
         self.is_blit = False
+        self.coords = coords
 
     def update(self, display):
         if self.is_blit and self.time_counter > 0:
@@ -16,6 +17,10 @@ class TextCloud:
 
     def set_coords(self, coords):
         self.coords = coords[0] - 30, coords[1] - self.rect.height + 30
+
+    def change_coords(self, x, y=0):
+        self.coords[0] += x
+        self.coords[1] += y
 
     def blit(self, text, nonestop=False):
         self.text = text

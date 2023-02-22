@@ -53,11 +53,11 @@ class Player:
 
     def jump(self):
         if self.jump_counter > 0:
-            self.y -= (self.jump_counter ** 2)
-            self.rect.y -= (self.jump_counter ** 2)
+            self.y -= (self.jump_counter ** 2) * 2
+            self.rect.y -= (self.jump_counter ** 2) * 2
         if self.jump_counter < 0:
-            self.y += (self.jump_counter ** 2)
-            self.rect.y += (self.jump_counter ** 2)
+            self.y += (self.jump_counter ** 2) * 2
+            self.rect.y += (self.jump_counter ** 2) * 2
         if self.jump_counter == -JUMP_CONST:
             self.jump_counter = JUMP_CONST
             self.in_jump = False

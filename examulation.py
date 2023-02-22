@@ -17,7 +17,7 @@ while True:
         elif event.type == pg.KEYUP and event.key in player_buttons.keys() and not in_menu:
             scene.actions[player_buttons[event.key]] = False
 
-        if event.type == pg.KEYDOWN and in_menu:
+        if event.type == pg.KEYDOWN and event.key == pg.K_SPACE and in_menu:
             in_menu = False
             scene = Scene()
 
@@ -28,5 +28,5 @@ while True:
     else:
         scene.update(display)
     pg.display.flip()
-    # print(clock.get_fps())
+    print(clock.get_fps())
     clock.tick(FPS)

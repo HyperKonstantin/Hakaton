@@ -11,6 +11,8 @@ class NPC:
         else:
             self.text = choice(exam_phrases[choice(list(filter(lambda x: x != exam_subject,subjects)))])
 
+        self.text = choice(exam_phrases["матану"])
+
     def draw(self, display):
         display.blit(self.img, (self.coords[0] - 75, self.coords[1] - 75))
 

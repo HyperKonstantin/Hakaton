@@ -9,12 +9,13 @@ class Music_player:
 
     def play(self):
         self.mind_sound.stop()
-        self.fon_music.play()
+        self.fon_music.play(-1)
 
     def pause(self):
         self.fon_music.stop()
 
     def end_music(self):
+        return
         pg.mixer.music.load("sounds/sound_fon_end.mp3")
         self.fon_music = pg.mixer.music
         self.fon_music.play(-1)

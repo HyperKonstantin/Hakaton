@@ -25,17 +25,17 @@ class Base_Corpus:
             npc.draw(display)
 
     def draw_door_collide_points(self):
-        pg.draw.rect(self.img, (0, 0, 200), (1060, 520, 20, 20))
-        pg.draw.rect(self.img, (0, 0, 200), (1795, 520, 20, 20))
-        pg.draw.rect(self.img, (0, 0, 200), (2473, 520, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (1055, 470, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (1735, 470, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (2470, 470, 20, 20))
 
-        pg.draw.rect(self.img, (0, 0, 200), (1060, 840, 20, 20))
-        pg.draw.rect(self.img, (0, 0, 200), (1795, 840, 20, 20))
-        pg.draw.rect(self.img, (0, 0, 200), (2473, 840, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (1055, 790, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (1735, 790, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (2470, 790, 20, 20))
 
-        pg.draw.rect(self.img, (0, 0, 200), (1060, 1160, 20, 20))
-        pg.draw.rect(self.img, (0, 0, 200), (1795, 1160, 20, 20))
-        pg.draw.rect(self.img, (0, 0, 200), (2473, 1160, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (1055, 1120, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (1735, 1120, 20, 20))
+        pg.draw.rect(self.img, (0, 0, 200), (2470, 1120, 20, 20))
 
 
     def update(self, actions):
@@ -117,7 +117,6 @@ class Base_Corpus:
 
     def space_action(self):
         if self.player.rect.colliderect(self.backdoor) and self.floor == 0:
-            door_sound.play()
             self.quit = True
 
         elif self.player.rect.centerx in [i for  i in range(self.tables_x - 120, self.tables_x + 120)]:
@@ -125,7 +124,6 @@ class Base_Corpus:
                 self.player.text_cloud.blit(table_text)
 
         elif self.player.rect.collidepoint(self.exam_room_point) and self.num == exam_corpus:
-            door_sound.play()
             print("on exam")
             self.player.rezult()
 
@@ -145,7 +143,6 @@ class Base_Corpus:
         else:
             for npc in self.NPCs:
                 if not npc.is_asked and self.player.rect.collidepoint(npc.coords):
-                    print("Talk with NPC")
                     self.player.active_NPC = npc
                     self.player.text_cloud.blit(npc.text, True)
 
@@ -181,7 +178,7 @@ class Base_Corpus:
         return True if self.x <= WIDTH - self.rect.width else False
 
     def is_up_border(self):
-        return True if self.y >= 0 else False
+        return True if self.y >= -15 else False
 
     def is_down_border(self):
         return True if self.y <= HEIGHT - self.rect.height else False
