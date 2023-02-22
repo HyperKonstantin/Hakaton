@@ -18,8 +18,6 @@ class Base_Corpus:
         self.tables_x = tables_x
         self.exam_room_point = exam_room_point
 
-
-
     def draw(self, display : pg.Surface):
         # self.draw_door_collide_points()
         display.blit(self.img, (self.x, self.y))
@@ -50,9 +48,11 @@ class Base_Corpus:
             if actions["jump"] and self.floor < MAX_FLOOR:
                 self.lift_moving = True
                 self.floor += 1
+                # lift_sound.play()
             elif actions["sit"] and self.floor > 0:
                 self.lift_moving = False
                 self.floor -= 1
+                # lift_sound.play()
 
         elif self.player.in_x_center:
             if actions["right"] and not self.is_right_border():
@@ -117,6 +117,7 @@ class Base_Corpus:
 
     def space_action(self):
         if self.player.rect.colliderect(self.backdoor) and self.floor == 0:
+            door_sound.play()
             self.quit = True
 
         elif self.player.rect.centerx in [i for  i in range(self.tables_x - 120, self.tables_x + 120)]:
@@ -124,24 +125,32 @@ class Base_Corpus:
                 self.player.text_cloud.blit(table_text)
 
         elif self.player.rect.collidepoint(self.exam_room_point) and self.num == exam_corpus:
+            door_sound.play()
             print("on exam")
+            self.player.rezult()
+
 
         elif self.player.active_NPC:
-            self.player.text_cloud.remove()
             if self.player.active_NPC.is_right:
                 self.player.info_counter += 1
             elif self.player.info_counter > 0:
                 self.player.info_counter -= 1
+            self.player.text_cloud.remove()
+            self.player.active_NPC.is_asked = True
             self.player.active_NPC = None
-            print(f"info: {self.player.info_counter}")
 
+            self.player.music_player.play()
+            print(f"info: {self.player.info_counter}")
 
         else:
             for npc in self.NPCs:
                 if not npc.is_asked and self.player.rect.collidepoint(npc.coords):
-                    print("Talk with player")
+                    print("Talk with NPC")
                     self.player.active_NPC = npc
                     self.player.text_cloud.blit(npc.text, True)
+
+                    self.player.music_player.pause()
+                    self.player.music_player.mind_sound.play(-1)
                     break
 
     def collider(self):
@@ -155,6 +164,7 @@ class Base_Corpus:
             self.player.active_NPC.is_asked = True
             self.player.active_NPC = None
             self.player.text_cloud.remove()
+            self.player.music_player.play()
 
 
 

@@ -15,7 +15,7 @@ class Scene:
         self.door_rects = [pg.Rect(1100, 620, 600, 200), pg.Rect(6600, 620, 600, 200), pg.Rect(12200, 620, 600, 200)]
 
 
-    def update(self):
+    def update(self, display):
         if self.corpus == None:
             self.move(self.actions)
         elif self.corpus.quit:
@@ -26,9 +26,7 @@ class Scene:
             self.player.in_x_center = True
         else:
             self.corpus.update(self.actions)
-
-        # print(f"{self.door_rects[1].y}\t{self.player.rect.y}")
-
+        self.draw(display)
 
     def draw(self, display : pg.Surface):
         if self.corpus == None:
@@ -58,6 +56,7 @@ class Scene:
         if actions["space"]:
             actions["space"] = False
             active_door = self.player.street_collides(self.door_rects)
+            door_sound.play()
             match active_door:
                 case 0:
                     self.corpus = Corpus1(self.player, corpus1_img)

@@ -1,5 +1,7 @@
 from config import *
 from TextCloud import TextCloud
+from End_game import End_game
+from Music_Player import Music_player
 class Player:
     def __init__(self):
         self.player_stand_img = player_img
@@ -17,7 +19,11 @@ class Player:
         self.text_cloud = TextCloud()
         self.active_NPC = False
         self.info_counter = 0
-
+        self.end_game = End_game()
+        self.bell_counter = 1
+        self.music_player = Music_player()
+        self.is_end = False
+        self.start_time = time()
 
     def move(self, actions, block_move=False):
         if not block_move:
@@ -76,11 +82,31 @@ class Player:
         self.text_cloud.set_coords(self.rect.topright)
         self.text_cloud.update(display)
 
-        # self.text_cloud.blit("")
+        #end game
+        self.end_game.check(display, self.music_player)
+
+        self.bell_update()
+
 
     def street_collides(self, doors):
         for i, door in enumerate(doors):
             if self.rect.colliderect(door):
                 return i
-
         return None
+
+    def bell_update(self):
+        now_time = time()
+        if self.bell_counter > BELLS_COUNT - 1 and not self.is_end:
+            self.music_player.end_music()
+            self.is_end = True
+        if self.bell_counter > BELLS_COUNT:
+            self.end_game.set_end(is_late=True)
+        elif int(now_time - self.start_time) == GAME_TIME * self.bell_counter and not  self.end_game.run_end_sound:
+            bell_sound.play()
+            self.bell_counter += 1
+
+    def rezult(self):
+        if self.info_counter >= randint(1, MAX_INFO_POINTS):
+            self.end_game.set_end(is_pass=True)
+        else:
+            self.end_game.set_end(is_fail=True)
